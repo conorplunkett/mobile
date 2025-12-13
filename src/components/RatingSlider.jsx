@@ -19,17 +19,17 @@ export default function RatingSlider({ onRatingChange, initialRating = 3 }) {
   const position = useRef(new Animated.Value(initialPosition)).current;
   const sparkLeft = useRef(new Animated.Value(0)).current;
   const sparkRight = useRef(new Animated.Value(0)).current;
-  const currentPosition = useRef(initialPosition);
+  const startPositionRef = useRef(initialPosition);
 
   const [fontsLoaded] = useFonts({
     Inter_600SemiBold,
   });
 
   useEffect(() => {
-    // Sync currentPosition when initialRating changes externally
+    // Sync position when initialRating changes externally
     const newPosition = ((initialRating - 1) / 4) * sliderWidth;
-    currentPosition.current = newPosition;
     position.setValue(newPosition);
+    startPositionRef.current = newPosition;
   }, [initialRating]);
 
   useEffect(() => {
@@ -62,31 +62,56 @@ export default function RatingSlider({ onRatingChange, initialRating = 3 }) {
       onStartShouldSetPanResponder: () => true,
       onMoveShouldSetPanResponder: () => true,
       onPanResponderGrant: (evt, gestureState) => {
-        // Use the touch location relative to the track
+        // Flatten any existing offset into the value
+        position.flattenOffset();
+        
+        // Get the starting position from touch location
         const locationX = evt.nativeEvent.locationX;
-        const newPosition = Math.max(0, Math.min(sliderWidth, locationX));
-        currentPosition.current = newPosition;
-        updateRating(newPosition);
+        const startPosition = Math.max(0, Math.min(sliderWidth, locationX));
+        
+        // Store the starting position for calculations
+        startPositionRef.current = startPosition;
+        
+        // Set the current position as the offset, and reset value to 0
+        // This allows us to track relative movement from this starting point
+        position.setOffset(startPosition);
+        position.setValue(0);
+        
+        // Update rating based on initial position
+        updateRating(startPosition);
       },
       onPanResponderMove: (evt, gestureState) => {
-        // Calculate new position based on current position + delta movement
-        const newPosition = currentPosition.current + gestureState.dx;
-        updateRating(newPosition);
+        // Calculate actual position: starting position + cumulative delta movement
+        const actualPosition = startPositionRef.current + gestureState.dx;
+        
+        // Clamp the position to valid bounds
+        const clampedPosition = Math.max(0, Math.min(sliderWidth, actualPosition));
+        
+        // Calculate the clamped delta for the animated value
+        const clampedDx = clampedPosition - startPositionRef.current;
+        
+        // Set the animated value to the clamped delta for smooth animation
+        position.setValue(clampedDx);
+        
+        // Update rating based on calculated position
+        updateRating(clampedPosition);
+      },
+      onPanResponderRelease: () => {
+        // Flatten the offset back into the value
+        // This merges the offset into the value so the position persists
+        position.flattenOffset();
       },
     }),
   ).current;
 
   const updateRating = (x) => {
     const clampedX = Math.max(0, Math.min(sliderWidth, x));
-    currentPosition.current = clampedX;
     const newRating = Math.round((clampedX / sliderWidth) * 4) + 1;
 
     if (newRating !== rating) {
       setRating(newRating);
       onRatingChange(newRating);
     }
-
-    position.setValue(clampedX);
   };
 
   if (!fontsLoaded) {
