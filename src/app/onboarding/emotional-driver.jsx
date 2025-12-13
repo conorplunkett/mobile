@@ -1,0 +1,170 @@
+import {
+  View,
+  Text,
+  Pressable,
+  useColorScheme,
+  ScrollView,
+} from "react-native";
+import { StatusBar } from "expo-status-bar";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { useRouter } from "expo-router";
+import * as Haptics from "expo-haptics";
+import { useState } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import {
+  useFonts,
+  DMSerifDisplay_400Regular,
+} from "@expo-google-fonts/dm-serif-display";
+import { Inter_400Regular, Inter_600SemiBold } from "@expo-google-fonts/inter";
+
+const drivers = [
+  "Peace or grounding",
+  "Purpose or direction",
+  "Hope or reassurance",
+  "Wisdom or clarity",
+  "Community or belonging",
+  "Curiosity or learning",
+];
+
+export default function EmotionalDriverScreen() {
+  const colorScheme = useColorScheme();
+  const isDark = colorScheme === "dark";
+  const insets = useSafeAreaInsets();
+  const router = useRouter();
+  const [selected, setSelected] = useState(null);
+
+  const [fontsLoaded] = useFonts({
+    DMSerifDisplay_400Regular,
+    Inter_400Regular,
+    Inter_600SemiBold,
+  });
+
+  const handleSelect = async (driver) => {
+    await Haptics.selectionAsync();
+    setSelected(driver);
+  };
+
+  const handleContinue = async () => {
+    if (!selected) return;
+    await Haptics.selectionAsync();
+    await AsyncStorage.setItem("emotional_driver", selected);
+    router.push("/onboarding/background");
+  };
+
+  if (!fontsLoaded) {
+    return null;
+  }
+
+  return (
+    <View
+      style={{
+        flex: 1,
+        backgroundColor: isDark ? "#121212" : "#FFFFFF",
+        paddingTop: insets.top,
+        paddingBottom: insets.bottom,
+      }}
+    >
+      <StatusBar style={isDark ? "light" : "dark"} />
+
+      <ScrollView
+        style={{ flex: 1 }}
+        contentContainerStyle={{
+          paddingHorizontal: 32,
+          paddingTop: 40,
+          paddingBottom: 120,
+        }}
+        showsVerticalScrollIndicator={false}
+      >
+        <Text
+          style={{
+            fontFamily: "DMSerifDisplay_400Regular",
+            fontSize: 32,
+            color: "#477b78",
+            marginBottom: 12,
+          }}
+        >
+          What do you seek?
+        </Text>
+
+        <Text
+          style={{
+            fontFamily: "Inter_400Regular",
+            fontSize: 16,
+            color: isDark ? "#9CA3AF" : "#6B7280",
+            marginBottom: 32,
+          }}
+        >
+          Choose one that resonates most
+        </Text>
+
+        {drivers.map((driver, index) => {
+          const isSelected = selected === driver;
+          return (
+            <Pressable
+              key={index}
+              onPress={() => handleSelect(driver)}
+              style={({ pressed }) => ({
+                backgroundColor: isSelected
+                  ? "#477b78"
+                  : isDark
+                    ? "#1E1E1E"
+                    : "#F6F7F9",
+                borderRadius: 16,
+                padding: 20,
+                marginBottom: 12,
+                borderWidth: isSelected ? 2 : 0,
+                borderColor: "#477b78",
+                transform: pressed ? [{ scale: 0.98 }] : [{ scale: 1 }],
+              })}
+            >
+              <Text
+                style={{
+                  fontFamily: "Inter_600SemiBold",
+                  fontSize: 15,
+                  color: isSelected
+                    ? "#FFFFFF"
+                    : isDark
+                      ? "#FFFFFF"
+                      : "#000000",
+                }}
+              >
+                {driver}
+              </Text>
+            </Pressable>
+          );
+        })}
+      </ScrollView>
+
+      <View
+        style={{
+          position: "absolute",
+          bottom: insets.bottom + 20,
+          left: 32,
+          right: 32,
+        }}
+      >
+        <Pressable
+          onPress={handleContinue}
+          disabled={!selected}
+          style={({ pressed }) => ({
+            backgroundColor: selected ? "#477b78" : "#D1D5DB",
+            borderRadius: 28,
+            paddingVertical: 18,
+            alignItems: "center",
+            transform: pressed ? [{ scale: 0.98 }] : [{ scale: 1 }],
+          })}
+        >
+          <Text
+            style={{
+              fontFamily: "Inter_600SemiBold",
+              fontSize: 16,
+              color: "#FFFFFF",
+            }}
+          >
+            Continue
+          </Text>
+        </Pressable>
+      </View>
+    </View>
+  );
+}
