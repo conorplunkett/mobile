@@ -135,7 +135,7 @@ export default function ReligionsScreen() {
           onPress={handleSelectAll}
           style={({ pressed }) => ({
             backgroundColor: allSelected
-              ? "#5a9b9c"
+              ? "#e5a754"
               : isDark
                 ? "#1E1E1E"
                 : "#F6F7F9",
@@ -167,7 +167,7 @@ export default function ReligionsScreen() {
               onPress={() => handleToggle(religion)}
               style={({ pressed }) => ({
                 backgroundColor: isSelected
-                  ? "#5a9b9c"
+                  ? "#e5a754"
                   : isDark
                     ? "#1E1E1E"
                     : "#E5E7EB",
@@ -176,7 +176,7 @@ export default function ReligionsScreen() {
                 marginBottom: 12,
                 borderWidth: isSelected ? 2 : 1,
                 borderColor: isSelected
-                  ? "#5a9b9c"
+                  ? "#e5a754"
                   : isDark
                     ? "#2A2A2A"
                     : "#D1D5DB",
