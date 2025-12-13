@@ -1,3 +1,11 @@
 import updatedFetch from './fetch';
-// @ts-ignore
-global.fetch = updatedFetch;
+import { mockFetch, setRealFetch, shouldEnableMockApi } from '../utils/mockApi';
+
+if (shouldEnableMockApi) {
+  setRealFetch(updatedFetch);
+  // @ts-ignore
+  global.fetch = mockFetch;
+} else {
+  // @ts-ignore
+  global.fetch = updatedFetch;
+}

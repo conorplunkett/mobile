@@ -4,7 +4,7 @@ import {
   Pressable,
   useColorScheme,
   ScrollView,
-  ActivityIndicator,
+  ActivityIndicator,  Alert,
 } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -17,6 +17,30 @@ import {
   DMSerifDisplay_400Regular,
 } from "@expo-google-fonts/dm-serif-display";
 import { Inter_400Regular, Inter_600SemiBold } from "@expo-google-fonts/inter";
+
+const PLAN_DETAILS = {
+  monthly: {
+    id: "monthly",
+    cadence: "monthly",
+    price_usd: 30,
+    price_cents: 3000,
+    trial_days: 7,
+  },
+  yearly: {
+    id: "yearly",
+    cadence: "yearly",
+    price_usd: 90,
+    price_cents: 9000,
+    trial_days: 7,
+  },
+  lifetime: {
+    id: "lifetime",
+    cadence: "lifetime",
+    price_usd: 150,
+    price_cents: 15000,
+    trial_days: 0,
+  },
+};
 
 export default function PaywallScreen() {
   const colorScheme = useColorScheme();
@@ -38,10 +62,13 @@ export default function PaywallScreen() {
   };
 
   const handleStartTrial = async () => {
+    if (isProcessing) return;
     setIsProcessing(true);
-    await Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+    await Haptics.selectionAsync();
 
     try {
+      const planDetails = PLAN_DETAILS[selectedPlan] || PLAN_DETAILS.monthly;
+
       // Create user in database
       const onboardingData = {
         primary_intent: JSON.parse(
@@ -57,6 +84,11 @@ export default function PaywallScreen() {
           (await AsyncStorage.getItem("selected_religions")) || "[]",
         ),
         custom_religion: await AsyncStorage.getItem("custom_religion"),
+        selected_plan: selectedPlan,
+        plan_selection: {
+          ...planDetails,
+          currency: "USD",
+        },
       };
 
       const response = await fetch("/api/users/create", {
@@ -65,17 +97,41 @@ export default function PaywallScreen() {
         body: JSON.stringify(onboardingData),
       });
 
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(
+          errorText || "Unable to start your trial. Please try again.",
+        );
+      }
+
       const data = await response.json();
 
-      if (data.success) {
-        await AsyncStorage.setItem("user_hash", data.user.user_hash);
-        await AsyncStorage.setItem("onboarding_complete", "true");
-        await AsyncStorage.setItem("has_subscription", "true");
-
-        router.replace("/(tabs)/home");
+      if (!data.success) {
+        throw new Error(
+          data?.message ||
+            "We couldn't start your trial. Please double-check your info and try again.",
+        );
       }
+
+      await AsyncStorage.setItem("user_hash", data.user.user_hash);
+      await AsyncStorage.setItem("onboarding_complete", "true");
+      await AsyncStorage.setItem("has_subscription", "true");
+      await AsyncStorage.setItem("selected_plan", selectedPlan);
+      await AsyncStorage.setItem(
+        "selected_plan_details",
+        JSON.stringify(planDetails),
+      );
+
+      await Haptics.notificationAsync(
+        Haptics.NotificationFeedbackType.Success,
+      );
+      router.replace("/(tabs)/home");
     } catch (error) {
       console.error("Error creating user:", error);
+      Alert.alert(
+        "Unable to continue",
+        error?.message || "Please try again in a moment.",
+      );
     } finally {
       setIsProcessing(false);
     }
