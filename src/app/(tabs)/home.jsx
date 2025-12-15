@@ -286,15 +286,6 @@ export default function HomeScreen() {
           >
             Day {currentDay}/30
           </Text>
-          <Text
-            style={{
-              fontFamily: "Inter_400Regular",
-              fontSize: 14,
-              color: isDark ? "#6B7280" : "#9CA3AF",
-            }}
-          >
-            Welcome back, {profileName}
-          </Text>
         </View>
 
         <Pressable
@@ -506,7 +497,7 @@ export default function HomeScreen() {
                 marginBottom: 16,
               }}
             >
-              Mark your resonance, {profileName}
+              Mark your resonance
             </Text>
 
             <RatingSlider onRatingChange={setRating} initialRating={3} />

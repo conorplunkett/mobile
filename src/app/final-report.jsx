@@ -24,6 +24,7 @@ import {
   COLOR_DARK,
 } from "../utils/colors";
 import { useUserName } from "../utils/userName";
+import { useInterpretationSummary } from "../utils/interpretationSummary";
 
 const RELIGIOUS_PROFILE = [
   { label: "Christianity", value: 65, color: COLOR_PRIMARY },
@@ -39,6 +40,7 @@ export default function FinalReportScreen() {
   const insets = useSafeAreaInsets();
   const router = useRouter();
   const userName = useUserName();
+  const interpretationSummary = useInterpretationSummary();
 
   const [fontsLoaded] = useFonts({
     DMSerifDisplay_400Regular,
@@ -178,7 +180,7 @@ export default function FinalReportScreen() {
                     marginTop: 4,
                   }}
                 >
-                  Religious profile preview
+                  Christian/Muslim
                 </Text>
               </View>
             </View>
@@ -255,11 +257,7 @@ export default function FinalReportScreen() {
               lineHeight: 22,
             }}
           >
-            This profile reflects how your responses distribute across faith
-            traditions over time. As you continue your journey, these
-            proportions will update and eventually settle into your final
-            report. Today's view is a conceptual preview powered by sample
-            data.
+            {interpretationSummary}
           </Text>
         </View>
 
@@ -280,8 +278,8 @@ export default function FinalReportScreen() {
               lineHeight: 20,
             }}
           >
-            This is a preview using sample data. Your final report will be based
-            on your own reflections.
+            This is a preview using limited data. Your final report will be based
+            more accurate after 30 days. 
           </Text>
         </View>
       </ScrollView>

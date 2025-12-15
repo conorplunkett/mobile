@@ -29,6 +29,11 @@ import {
   getStoredUserName,
   saveUserName,
 } from "../../utils/userName";
+import {
+  DEFAULT_INTERPRETATION_SUMMARY,
+  getStoredInterpretationSummary,
+  saveInterpretationSummary,
+} from "../../utils/interpretationSummary";
 
 export default function SettingsScreen() {
   const colorScheme = useColorScheme();
@@ -41,6 +46,9 @@ export default function SettingsScreen() {
   const [loading, setLoading] = useState(true);
   const [prepopulate, setPrepopulate] = useState(false);
   const [customName, setCustomName] = useState(DEFAULT_USER_NAME);
+  const [summaryText, setSummaryText] = useState(
+    DEFAULT_INTERPRETATION_SUMMARY,
+  );
 
   const [fontsLoaded] = useFonts({
     DMSerifDisplay_400Regular,
@@ -59,6 +67,8 @@ export default function SettingsScreen() {
 
       const storedName = await getStoredUserName();
       setCustomName(storedName);
+      const storedSummary = await getStoredInterpretationSummary();
+      setSummaryText(storedSummary);
 
       if (!hash) return;
 
@@ -240,6 +250,11 @@ export default function SettingsScreen() {
   const handleSavePreviewName = async () => {
     const savedName = await saveUserName(customName);
     setCustomName(savedName);
+  };
+
+  const handleSaveSummary = async () => {
+    const savedSummary = await saveInterpretationSummary(summaryText);
+    setSummaryText(savedSummary);
   };
 
   if (!fontsLoaded || loading) {
@@ -664,6 +679,57 @@ export default function SettingsScreen() {
                   fontFamily: "Inter_400Regular",
                   fontSize: 14,
                   color: isDark ? "#FFFFFF" : "#000000",
+                }}
+                returnKeyType="done"
+              />
+            </View>
+
+            <View
+              style={{
+                padding: 16,
+                borderBottomWidth: 1,
+                borderBottomColor: isDark ? "#2A2A2A" : "#E5E7EB",
+              }}
+            >
+              <Text
+                style={{
+                  fontFamily: "Inter_400Regular",
+                  fontSize: 15,
+                  color: isDark ? "#FFFFFF" : "#000000",
+                  marginBottom: 4,
+                }}
+              >
+                Interpretation Summary
+              </Text>
+              <Text
+                style={{
+                  fontFamily: "Inter_400Regular",
+                  fontSize: 13,
+                  color: isDark ? "#9CA3AF" : "#6B7280",
+                  marginBottom: 12,
+                }}
+              >
+                Controls the copy under the Interpretation Summary section on the
+                Final Report preview.
+              </Text>
+              <TextInput
+                multiline
+                value={summaryText}
+                onChangeText={setSummaryText}
+                onBlur={handleSaveSummary}
+                placeholder={DEFAULT_INTERPRETATION_SUMMARY}
+                placeholderTextColor={isDark ? "#6B7280" : "#9CA3AF"}
+                style={{
+                  minHeight: 120,
+                  borderRadius: 12,
+                  borderWidth: 1,
+                  borderColor: isDark ? "#2A2A2A" : "#E5E7EB",
+                  backgroundColor: isDark ? "#121212" : "#FFFFFF",
+                  padding: 14,
+                  fontFamily: "Inter_400Regular",
+                  fontSize: 14,
+                  color: isDark ? "#FFFFFF" : "#000000",
+                  textAlignVertical: "top",
                 }}
                 returnKeyType="done"
               />
