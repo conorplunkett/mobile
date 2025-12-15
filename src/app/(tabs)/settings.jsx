@@ -217,7 +217,7 @@ export default function SettingsScreen() {
           title: "Rio",
           body: "texst notificaiton",
         },
-        trigger: { seconds: 1 },
+        trigger: { seconds: 5 },
       });
 
       Alert.alert("Sent", "Test notification scheduled.");
