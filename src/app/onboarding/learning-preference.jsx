@@ -16,6 +16,7 @@ import {
   DMSerifDisplay_400Regular,
 } from "@expo-google-fonts/dm-serif-display";
 import { Inter_400Regular, Inter_600SemiBold } from "@expo-google-fonts/inter";
+import { COLOR_PRIMARY } from "../../utils/colors";
 
 const preferences = [
   "Short quotes",
@@ -84,7 +85,7 @@ export default function LearningPreferenceScreen() {
           style={{
             fontFamily: "DMSerifDisplay_400Regular",
             fontSize: 32,
-            color: "#477b78",
+            color: COLOR_PRIMARY,
             marginBottom: 12,
           }}
         >
@@ -110,7 +111,7 @@ export default function LearningPreferenceScreen() {
               onPress={() => handleToggle(pref)}
               style={({ pressed }) => ({
                 backgroundColor: isSelected
-                  ? "#477b78"
+                  ? COLOR_PRIMARY
                   : isDark
                     ? "#1E1E1E"
                     : "#F6F7F9",
@@ -118,7 +119,7 @@ export default function LearningPreferenceScreen() {
                 padding: 20,
                 marginBottom: 12,
                 borderWidth: isSelected ? 2 : 0,
-                borderColor: "#477b78",
+                borderColor: COLOR_PRIMARY,
                 transform: pressed ? [{ scale: 0.98 }] : [{ scale: 1 }],
               })}
             >
@@ -152,7 +153,7 @@ export default function LearningPreferenceScreen() {
           onPress={handleContinue}
           disabled={selected.length === 0}
           style={({ pressed }) => ({
-            backgroundColor: selected.length > 0 ? "#477b78" : "#D1D5DB",
+            backgroundColor: selected.length > 0 ? COLOR_PRIMARY : "#D1D5DB",
             borderRadius: 28,
             paddingVertical: 18,
             alignItems: "center",

@@ -279,7 +279,7 @@ export default function HomeScreen() {
                 style={{
                   fontFamily: "Inter_600SemiBold",
                   fontSize: 28,
-                  color: "#477b78",
+                  color: COLOR_PRIMARY,
                 }}
               >
                 {streak} day{streak !== 1 ? "s" : ""}
@@ -672,7 +672,7 @@ export default function HomeScreen() {
                     setShowReflection(true);
                   }}
                   style={({ pressed }) => ({
-                    backgroundColor: "#477b78",
+                    backgroundColor: COLOR_PRIMARY,
                     borderRadius: 28,
                     paddingVertical: 18,
                     alignItems: "center",
@@ -723,7 +723,7 @@ export default function HomeScreen() {
                 style={{
                   fontFamily: "DMSerifDisplay_400Regular",
                   fontSize: 28,
-                  color: "#477b78",
+                  color: COLOR_PRIMARY,
                 }}
               >
                 End of Day
@@ -738,7 +738,7 @@ export default function HomeScreen() {
                   style={{
                     fontFamily: "Inter_600SemiBold",
                     fontSize: 16,
-                    color: "#477b78",
+                    color: COLOR_PRIMARY,
                   }}
                 >
                   Cancel

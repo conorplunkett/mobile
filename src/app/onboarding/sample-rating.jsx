@@ -16,6 +16,7 @@ import {
   DMSerifDisplay_400Regular,
 } from "@expo-google-fonts/dm-serif-display";
 import { Inter_400Regular, Inter_600SemiBold } from "@expo-google-fonts/inter";
+import { COLOR_PRIMARY } from "../../utils/colors";
 import RatingSlider from "../../components/RatingSlider";
 
 export default function SampleRatingScreen() {
@@ -64,7 +65,7 @@ export default function SampleRatingScreen() {
           style={{
             fontFamily: "DMSerifDisplay_400Regular",
             fontSize: 32,
-            color: "#477b78",
+            color: COLOR_PRIMARY,
             marginBottom: 12,
           }}
         >
@@ -132,7 +133,7 @@ export default function SampleRatingScreen() {
         <Pressable
           onPress={handleContinue}
           style={({ pressed }) => ({
-            backgroundColor: "#477b78",
+            backgroundColor: COLOR_PRIMARY,
             borderRadius: 28,
             paddingVertical: 18,
             alignItems: "center",

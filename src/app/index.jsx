@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { View, ActivityIndicator } from "react-native";
 import { useRouter } from "expo-router";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { COLOR_PRIMARY } from "../utils/colors";
 
 export default function Index() {
   const router = useRouter();
@@ -37,7 +38,7 @@ export default function Index() {
   if (loading) {
     return (
       <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-        <ActivityIndicator size="large" color="#477b78" />
+        <ActivityIndicator size="large" color={COLOR_PRIMARY} />
       </View>
     );
   }

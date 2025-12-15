@@ -10,6 +10,7 @@ import {
   DMSerifDisplay_400Regular,
 } from "@expo-google-fonts/dm-serif-display";
 import { Inter_400Regular, Inter_600SemiBold } from "@expo-google-fonts/inter";
+import { COLOR_PRIMARY } from "../../utils/colors";
 
 export default function NotificationsScreen() {
   const colorScheme = useColorScheme();
@@ -93,7 +94,7 @@ export default function NotificationsScreen() {
           style={{
             fontFamily: "DMSerifDisplay_400Regular",
             fontSize: 32,
-            color: "#477b78",
+            color: COLOR_PRIMARY,
             marginBottom: 16,
             textAlign: "center",
           }}
@@ -141,7 +142,7 @@ export default function NotificationsScreen() {
               style={{
                 width: 32,
                 height: 32,
-                backgroundColor: "#477b78",
+              backgroundColor: COLOR_PRIMARY,
                 borderRadius: 8,
                 marginRight: 12,
                 justifyContent: "center",
@@ -183,7 +184,7 @@ export default function NotificationsScreen() {
           onPress={handleEnableNotifications}
           disabled={isRequesting}
           style={({ pressed }) => ({
-            backgroundColor: "#477b78",
+            backgroundColor: COLOR_PRIMARY,
             borderRadius: 28,
             paddingVertical: 18,
             alignItems: "center",

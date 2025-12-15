@@ -8,6 +8,7 @@ import {
   DMSerifDisplay_400Regular,
 } from "@expo-google-fonts/dm-serif-display";
 import { Inter_400Regular, Inter_600SemiBold } from "@expo-google-fonts/inter";
+import { COLOR_PRIMARY } from "../../utils/colors";
 
 export default function CommitmentScreen() {
   const colorScheme = useColorScheme();
@@ -34,7 +35,7 @@ export default function CommitmentScreen() {
     <View
       style={{
         flex: 1,
-        backgroundColor: "#477b78",
+        backgroundColor: COLOR_PRIMARY,
         paddingTop: insets.top,
         paddingBottom: insets.bottom,
       }}
@@ -177,7 +178,7 @@ export default function CommitmentScreen() {
             style={{
               fontFamily: "Inter_600SemiBold",
               fontSize: 16,
-              color: "#477b78",
+              color: COLOR_PRIMARY,
             }}
           >
             Start My 30-Day Exploration

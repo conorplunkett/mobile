@@ -18,6 +18,7 @@ import {
   DMSerifDisplay_400Regular,
 } from "@expo-google-fonts/dm-serif-display";
 import { Inter_400Regular, Inter_600SemiBold } from "@expo-google-fonts/inter";
+import { COLOR_PRIMARY, COLOR_MUTED } from "../../utils/colors";
 
 export default function ProgressScreen() {
   const colorScheme = useColorScheme();
@@ -96,7 +97,7 @@ export default function ProgressScreen() {
           backgroundColor: isDark ? "#121212" : "#FFFFFF",
         }}
       >
-        <ActivityIndicator size="large" color="#477b78" />
+        <ActivityIndicator size="large" color={COLOR_PRIMARY} />
       </View>
     );
   }
@@ -140,7 +141,7 @@ export default function ProgressScreen() {
           style={{
             fontFamily: "DMSerifDisplay_400Regular",
             fontSize: 32,
-            color: "#477b78",
+            color: COLOR_PRIMARY,
           }}
         >
           Your Journey
@@ -196,7 +197,7 @@ export default function ProgressScreen() {
                 style={{
                   fontFamily: "Inter_600SemiBold",
                   fontSize: 16,
-                  color: "#477b78",
+                  color: COLOR_PRIMARY,
                 }}
               >
                 {currentDay}/30
@@ -215,7 +216,7 @@ export default function ProgressScreen() {
                 style={{
                   width: `${(currentDay / 30) * 100}%`,
                   height: "100%",
-                  backgroundColor: "#477b78",
+                  backgroundColor: COLOR_PRIMARY,
                 }}
               />
             </View>
@@ -246,7 +247,7 @@ export default function ProgressScreen() {
                 style={{
                   fontFamily: "Inter_600SemiBold",
                   fontSize: 24,
-                  color: "#477b78",
+                  color: COLOR_PRIMARY,
                   marginBottom: 4,
                 }}
               >
@@ -275,7 +276,7 @@ export default function ProgressScreen() {
                 style={{
                   fontFamily: "Inter_600SemiBold",
                   fontSize: 24,
-                  color: "#477b78",
+                  color: COLOR_PRIMARY,
                   marginBottom: 4,
                 }}
               >
@@ -340,7 +341,7 @@ export default function ProgressScreen() {
                         style={{
                           fontFamily: "Inter_600SemiBold",
                           fontSize: 14,
-                          color: "#477b78",
+                          color: COLOR_PRIMARY,
                         }}
                       >
                         {percentage}%
@@ -359,7 +360,8 @@ export default function ProgressScreen() {
                         style={{
                           width: `${percentage}%`,
                           height: "100%",
-                          backgroundColor: index === 0 ? "#477b78" : "#9ca48d",
+                          backgroundColor:
+                            index === 0 ? COLOR_PRIMARY : COLOR_MUTED,
                         }}
                       />
                     </View>
@@ -409,7 +411,7 @@ export default function ProgressScreen() {
             onPress={handleGenerateReport}
             disabled={!canGenerateReport || generatingReport}
             style={({ pressed }) => ({
-              backgroundColor: canGenerateReport ? "#477b78" : "#D1D5DB",
+              backgroundColor: canGenerateReport ? COLOR_PRIMARY : "#D1D5DB",
               borderRadius: 28,
               paddingHorizontal: 32,
               paddingVertical: 16,
