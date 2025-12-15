@@ -273,17 +273,7 @@ export default function ProgressScreen() {
         }}
         showsVerticalScrollIndicator={false}
       >
-        <Text
-          style={{
-            fontFamily: "Inter_400Regular",
-            fontSize: 15,
-            color: isDark ? "#9CA3AF" : "#6B7280",
-            marginBottom: 32,
-          }}
-        >
-          Track your spiritual exploration
-        </Text>
-
+      
         {/* Progress overview */}
         <View
           style={{
