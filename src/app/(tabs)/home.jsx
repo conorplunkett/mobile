@@ -210,17 +210,11 @@ export default function HomeScreen() {
         }}
       >
         <View>
-          <Image
-            source={{
-              uri: "https://ucarecdn.com/a0fd9767-7c50-4f02-aae5-fa7fe595ab27/-/format/auto/",
-            }}
-            style={{ width: 40, height: 40, borderRadius: 10, marginBottom: 8 }}
-          />
           <Text
             style={{
               fontFamily: "DMSerifDisplay_400Regular",
               fontSize: 32,
-            color: COLOR_PRIMARY,
+              color: COLOR_PRIMARY,
             }}
           >
             Rio
