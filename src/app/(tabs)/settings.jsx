@@ -143,7 +143,7 @@ export default function SettingsScreen() {
       setPrepopulate(value);
 
       if (value) {
-        // Set to day 5
+        // Set to day 5 and seed ratings so the timeline/progress actually looks populated
         const response = await fetch(`/api/users/${userHash}`, {
           method: "PATCH",
           headers: { "Content-Type": "application/json" },
@@ -153,9 +153,27 @@ export default function SettingsScreen() {
         const data = await response.json();
         if (data.success) {
           setUser(data.user);
+
+          // Dev helper: seed ratings for days 1–5 so progress and timeline show history
+          try {
+            for (let day = 1; day <= 5; day++) {
+              await fetch("/api/ratings/create", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                  user_hash: userHash,
+                  verse_id: 1, // any valid verse id (mock API joins this back to a verse)
+                  rating: 3, // neutral rating
+                  journey_day: day,
+                }),
+              });
+            }
+          } catch (seedError) {
+            console.error("Error seeding prepopulated ratings:", seedError);
+          }
         }
       } else {
-        // Reset to 0
+        // Reset to day 0. We leave any existing ratings in place.
         const response = await fetch(`/api/users/${userHash}`, {
           method: "PATCH",
           headers: { "Content-Type": "application/json" },
