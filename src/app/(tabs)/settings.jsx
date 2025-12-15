@@ -13,6 +13,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useState, useEffect } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as Haptics from "expo-haptics";
+import * as Notifications from "expo-notifications";
 import { ChevronRight, ChevronLeft } from "lucide-react-native";
 import {
   useFonts,
@@ -187,6 +188,41 @@ export default function SettingsScreen() {
       }
     } catch (error) {
       console.error("Error toggling prepopulate:", error);
+    }
+  };
+
+  const handleSendTestNotification = async () => {
+    try {
+      await Haptics.selectionAsync();
+
+      const { status } = await Notifications.getPermissionsAsync();
+      let finalStatus = status;
+
+      if (status !== "granted") {
+        const permissionResponse = await Notifications.requestPermissionsAsync();
+        finalStatus = permissionResponse.status;
+      }
+
+      if (finalStatus !== "granted") {
+        Alert.alert(
+          "Notifications Disabled",
+          "Enable notifications to receive test alerts.",
+        );
+        return;
+      }
+
+      await Notifications.scheduleNotificationAsync({
+        content: {
+          title: "Rio",
+          body: "texst notificaiton",
+        },
+        trigger: null,
+      });
+
+      Alert.alert("Sent", "Test notification scheduled.");
+    } catch (error) {
+      console.error("Error sending test notification:", error);
+      Alert.alert("Error", "Unable to send test notification right now.");
     }
   };
 
@@ -563,6 +599,30 @@ export default function SettingsScreen() {
                 thumbColor="#FFFFFF"
               />
             </View>
+
+            <Pressable
+              onPress={handleSendTestNotification}
+              style={({ pressed }) => ({
+                flexDirection: "row",
+                justifyContent: "space-between",
+                alignItems: "center",
+                padding: 16,
+                borderBottomWidth: 1,
+                borderBottomColor: isDark ? "#2A2A2A" : "#E5E7EB",
+                opacity: pressed ? 0.6 : 1,
+              })}
+            >
+              <Text
+                style={{
+                  fontFamily: "Inter_400Regular",
+                  fontSize: 15,
+                  color: isDark ? "#FFFFFF" : "#000000",
+                }}
+              >
+                Send Test Notification
+              </Text>
+              <ChevronRight size={20} color={isDark ? "#9CA3AF" : "#6B7280"} />
+            </Pressable>
 
             <Pressable
               onPress={handleResetOnboarding}
