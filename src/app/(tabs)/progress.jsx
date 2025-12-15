@@ -24,6 +24,20 @@ import {
   RATING_LABEL_BY_SCORE,
 } from "../../constants/ratingScale";
 
+const CURRENT_ALIGNMENT_SAMPLE = [
+  { id: "christianity", name: "Christianity", percentage: 82, order: 0 },
+  { id: "buddhism", name: "Buddhism", percentage: 70, order: 1 },
+  { id: "judaism", name: "Judaism", percentage: 65, order: 2 },
+  { id: "islam", name: "Islam", percentage: 40, order: 3 },
+  { id: "hinduism", name: "Hinduism", percentage: 28, order: 4 },
+  { id: "sikhism", name: "Sikhism", percentage: 19, order: 5 },
+  { id: "taoism", name: "Taoism", percentage: 14, order: 6 },
+  { id: "bahai", name: "Baha'i Faith", percentage: 7, order: 7 },
+  { id: "jainism", name: "Jainism", percentage: 2, order: 8 },
+  { id: "shinto", name: "Shinto", percentage: 0, order: 9 },
+  { id: "confucianism-alignment", name: "Confucianism", percentage: 0, order: 10 },
+];
+
 const RATING_HISTORY_ENTRIES = [
   {
     id: "christianity-new-testament",
@@ -181,6 +195,20 @@ export default function ProgressScreen() {
     }
   };
 
+  const currentDay = progressData?.user?.journey_day || 0;
+  const daysRemaining = Math.max(0, 30 - currentDay);
+  const totalRatings = progressData?.totalRatings || 0;
+  const canGenerateReport = totalRatings >= 20;
+  const hasRatingHistory = totalRatings > 0 && RATING_HISTORY_ENTRIES.length > 0;
+  const currentAlignmentEntries = [...CURRENT_ALIGNMENT_SAMPLE].sort((a, b) => {
+    if (b.percentage === a.percentage) {
+      return a.order - b.order;
+    }
+    return b.percentage - a.percentage;
+  });
+  const topAlignmentPercentage =
+    currentAlignmentEntries.length > 0 ? currentAlignmentEntries[0].percentage : 0;
+
   if (!fontsLoaded || loading) {
     return (
       <View
@@ -195,12 +223,6 @@ export default function ProgressScreen() {
       </View>
     );
   }
-
-  const currentDay = progressData?.user?.journey_day || 0;
-  const daysRemaining = Math.max(0, 30 - currentDay);
-  const totalRatings = progressData?.totalRatings || 0;
-  const canGenerateReport = totalRatings >= 20;
-  const hasRatingHistory = totalRatings > 0 && RATING_HISTORY_ENTRIES.length > 0;
 
   return (
     <View
@@ -391,79 +413,79 @@ export default function ProgressScreen() {
         </View>
 
         {/* Religion alignment */}
-        {progressData?.religionPercentages &&
-          Object.keys(progressData.religionPercentages).length > 0 && (
-            <View
+        {currentAlignmentEntries.length > 0 && (
+          <View
+            style={{
+              backgroundColor: isDark ? "#1E1E1E" : "#F6F7F9",
+              borderRadius: 20,
+              padding: 24,
+              marginBottom: 24,
+            }}
+          >
+            <Text
               style={{
-                backgroundColor: isDark ? "#1E1E1E" : "#F6F7F9",
-                borderRadius: 20,
-                padding: 24,
-                marginBottom: 24,
+                fontFamily: "Inter_600SemiBold",
+                fontSize: 18,
+                color: isDark ? "#FFFFFF" : "#000000",
+                marginBottom: 20,
               }}
             >
-              <Text
-                style={{
-                  fontFamily: "Inter_600SemiBold",
-                  fontSize: 18,
-                  color: isDark ? "#FFFFFF" : "#000000",
-                  marginBottom: 20,
-                }}
-              >
-                Current Alignment
-              </Text>
+              Current Alignment
+            </Text>
 
-              {Object.entries(progressData.religionPercentages)
-                .sort(([, a], [, b]) => b - a)
-                .map(([religion, percentage], index) => (
-                  <View key={index} style={{ marginBottom: 16 }}>
-                    <View
-                      style={{
-                        flexDirection: "row",
-                        justifyContent: "space-between",
-                        marginBottom: 8,
-                      }}
-                    >
-                      <Text
-                        style={{
-                          fontFamily: "Inter_600SemiBold",
-                          fontSize: 14,
-                          color: isDark ? "#FFFFFF" : "#000000",
-                        }}
-                      >
-                        {religion}
-                      </Text>
-                      <Text
-                        style={{
-                          fontFamily: "Inter_600SemiBold",
-                          fontSize: 14,
-                          color: COLOR_PRIMARY,
-                        }}
-                      >
-                        {percentage}%
-                      </Text>
-                    </View>
+            {currentAlignmentEntries.map((entry) => (
+              <View key={entry.id} style={{ marginBottom: 16 }}>
+                <View
+                  style={{
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    marginBottom: 8,
+                  }}
+                >
+                  <Text
+                    style={{
+                      fontFamily: "Inter_600SemiBold",
+                      fontSize: 14,
+                      color: isDark ? "#FFFFFF" : "#000000",
+                    }}
+                  >
+                    {entry.name}
+                  </Text>
+                  <Text
+                    style={{
+                      fontFamily: "Inter_600SemiBold",
+                      fontSize: 14,
+                      color: COLOR_PRIMARY,
+                    }}
+                  >
+                    {entry.percentage}%
+                  </Text>
+                </View>
 
-                    <View
-                      style={{
-                        height: 6,
-                        backgroundColor: isDark ? "#2A2A2A" : "#E5E7EB",
-                        borderRadius: 3,
-                        overflow: "hidden",
-                      }}
-                    >
-                      <View
-                        style={{
-                          width: `${percentage}%`,
-                          height: "100%",
-                          backgroundColor:
-                            index === 0 ? COLOR_PRIMARY : COLOR_MUTED,
-                        }}
-                      />
-                    </View>
-                  </View>
-                ))}
-            </View>
-          )}
+                <View
+                  style={{
+                    height: 6,
+                    backgroundColor: isDark ? "#2A2A2A" : "#E5E7EB",
+                    borderRadius: 3,
+                    overflow: "hidden",
+                  }}
+                >
+                  <View
+                    style={{
+                      width: `${entry.percentage}%`,
+                      height: "100%",
+                      backgroundColor:
+                        entry.percentage === topAlignmentPercentage
+                          ? COLOR_PRIMARY
+                          : COLOR_MUTED,
+                    }}
+                  />
+                </View>
+              </View>
+            ))}
+          </View>
+        )}
 
         {/* Generate report */}
         <View
