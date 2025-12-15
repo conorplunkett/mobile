@@ -68,7 +68,7 @@ export default function RatingSlider({ onRatingChange, initialRating = null }) {
   const containerWidth = 300;
 
   return (
-    <View style={{ paddingVertical: 40, alignItems: "center" }}>
+    <View style={{ paddingVertical: 24, alignItems: "center" }}>
       <View
         style={{
           backgroundColor: isDark ? "#1E1E1E" : "#F6F7F9",
