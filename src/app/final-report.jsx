@@ -16,14 +16,21 @@ import {
 } from "@expo-google-fonts/dm-serif-display";
 import { Inter_400Regular, Inter_600SemiBold } from "@expo-google-fonts/inter";
 import DonutChart from "../components/DonutChart";
-import { COLOR_PRIMARY, COLOR_MUTED } from "../utils/colors";
+import {
+  COLOR_PRIMARY,
+  COLOR_MUTED,
+  COLOR_ACCENT,
+  COLOR_ACCENT_SOFT,
+  COLOR_DARK,
+} from "../utils/colors";
+import { useUserName } from "../utils/userName";
 
 const RELIGIOUS_PROFILE = [
-  { label: "Christianity", value: 65, color: "#6AA7A3" },
-  { label: "Judaism", value: 6, color: "#F1D4A0" },
-  { label: "Islam", value: 12, color: "#E5A754" },
-  { label: "Buddhism", value: 10, color: "#C6CF94" },
-  { label: "Other", value: 7, color: "#BBA3C5" },
+  { label: "Christianity", value: 65, color: COLOR_PRIMARY },
+  { label: "Judaism", value: 6, color: COLOR_ACCENT_SOFT },
+  { label: "Islam", value: 12, color: COLOR_ACCENT },
+  { label: "Buddhism", value: 10, color: COLOR_MUTED },
+  { label: "Other", value: 7, color: COLOR_DARK },
 ];
 
 export default function FinalReportScreen() {
@@ -31,6 +38,7 @@ export default function FinalReportScreen() {
   const isDark = colorScheme === "dark";
   const insets = useSafeAreaInsets();
   const router = useRouter();
+  const userName = useUserName();
 
   const [fontsLoaded] = useFonts({
     DMSerifDisplay_400Regular,
@@ -97,23 +105,13 @@ export default function FinalReportScreen() {
           >
             Your Final Report
           </Text>
-          <Text
-            style={{
-              fontFamily: "Inter_400Regular",
-              fontSize: 15,
-              color: textMuted,
-              marginTop: 4,
-            }}
-          >
-            A snapshot of your spiritual alignment
-          </Text>
         </View>
 
         <Pressable
           onPress={() => {}}
           style={({ pressed }) => ({
             borderWidth: 1,
-            borderColor: isDark ? "#2A2A2A" : "#E5E7EB",
+            borderColor: isDark ? COLOR_DARK : "#E5E7EB",
             borderRadius: 999,
             padding: 8,
             opacity: pressed ? 0.6 : 1,
@@ -165,12 +163,12 @@ export default function FinalReportScreen() {
                 <Text
                   style={{
                     fontFamily: "Inter_600SemiBold",
-                    fontSize: 16,
+                    fontSize: 18,
                     color: isDark ? "#FFFFFF" : "#000000",
                     textAlign: "center",
                   }}
                 >
-                  Your Religious Profile
+                  {userName}
                 </Text>
                 <Text
                   style={{
@@ -180,7 +178,7 @@ export default function FinalReportScreen() {
                     marginTop: 4,
                   }}
                 >
-                  Preview
+                  Religious profile preview
                 </Text>
               </View>
             </View>

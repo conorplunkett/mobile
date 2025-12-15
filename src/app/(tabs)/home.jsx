@@ -23,12 +23,14 @@ import {
 import { Inter_400Regular, Inter_600SemiBold } from "@expo-google-fonts/inter";
 import RatingSlider from "../../components/RatingSlider";
 import { COLOR_PRIMARY } from "../../utils/colors";
+import { useUserName } from "../../utils/userName";
 
 export default function HomeScreen() {
   const colorScheme = useColorScheme();
   const isDark = colorScheme === "dark";
   const insets = useSafeAreaInsets();
   const router = useRouter();
+  const profileName = useUserName();
 
   const [userHash, setUserHash] = useState(null);
   const [user, setUser] = useState(null);
@@ -284,6 +286,15 @@ export default function HomeScreen() {
           >
             Day {currentDay}/30
           </Text>
+          <Text
+            style={{
+              fontFamily: "Inter_400Regular",
+              fontSize: 14,
+              color: isDark ? "#6B7280" : "#9CA3AF",
+            }}
+          >
+            Welcome back, {profileName}
+          </Text>
         </View>
 
         <Pressable
@@ -495,7 +506,7 @@ export default function HomeScreen() {
                 marginBottom: 16,
               }}
             >
-              Mark your resonance
+              Mark your resonance, {profileName}
             </Text>
 
             <RatingSlider onRatingChange={setRating} initialRating={3} />

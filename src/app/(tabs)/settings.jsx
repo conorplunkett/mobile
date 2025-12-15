@@ -7,6 +7,7 @@ import {
   ActivityIndicator,
   Switch,
   Alert,
+  TextInput,
 } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -23,6 +24,11 @@ import { Inter_400Regular, Inter_600SemiBold } from "@expo-google-fonts/inter";
 import * as Clipboard from "expo-clipboard";
 import { useRouter } from "expo-router";
 import { COLOR_PRIMARY } from "../../utils/colors";
+import {
+  DEFAULT_USER_NAME,
+  getStoredUserName,
+  saveUserName,
+} from "../../utils/userName";
 
 export default function SettingsScreen() {
   const colorScheme = useColorScheme();
@@ -34,6 +40,7 @@ export default function SettingsScreen() {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [prepopulate, setPrepopulate] = useState(false);
+  const [customName, setCustomName] = useState(DEFAULT_USER_NAME);
 
   const [fontsLoaded] = useFonts({
     DMSerifDisplay_400Regular,
@@ -49,6 +56,9 @@ export default function SettingsScreen() {
     try {
       const hash = await AsyncStorage.getItem("user_hash");
       setUserHash(hash);
+
+      const storedName = await getStoredUserName();
+      setCustomName(storedName);
 
       if (!hash) return;
 
@@ -225,6 +235,11 @@ export default function SettingsScreen() {
       console.error("Error sending test notification:", error);
       Alert.alert("Error", "Unable to send test notification right now.");
     }
+  };
+
+  const handleSavePreviewName = async () => {
+    const savedName = await saveUserName(customName);
+    setCustomName(savedName);
   };
 
   if (!fontsLoaded || loading) {
@@ -598,6 +613,59 @@ export default function SettingsScreen() {
                 onValueChange={handleTogglePrepopulate}
                 trackColor={{ false: "#D1D5DB", true: COLOR_PRIMARY }}
                 thumbColor="#FFFFFF"
+              />
+            </View>
+
+            <View
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+                padding: 16,
+                borderBottomWidth: 1,
+                borderBottomColor: isDark ? "#2A2A2A" : "#E5E7EB",
+              }}
+            >
+              <View style={{ flex: 1, marginRight: 12 }}>
+                <Text
+                  style={{
+                    fontFamily: "Inter_400Regular",
+                    fontSize: 15,
+                    color: isDark ? "#FFFFFF" : "#000000",
+                    marginBottom: 4,
+                  }}
+                >
+                  Preview Name
+                </Text>
+                <Text
+                  style={{
+                    fontFamily: "Inter_400Regular",
+                    fontSize: 13,
+                    color: isDark ? "#9CA3AF" : "#6B7280",
+                  }}
+                >
+                  Used across preview screens like Final Report.
+                </Text>
+              </View>
+              <TextInput
+                value={customName}
+                onChangeText={setCustomName}
+                onBlur={handleSavePreviewName}
+                onSubmitEditing={handleSavePreviewName}
+                placeholder={DEFAULT_USER_NAME}
+                placeholderTextColor={isDark ? "#6B7280" : "#9CA3AF"}
+                style={{
+                  minWidth: 140,
+                  paddingVertical: 10,
+                  paddingHorizontal: 14,
+                  borderRadius: 12,
+                  borderWidth: 1,
+                  borderColor: isDark ? "#2A2A2A" : "#E5E7EB",
+                  backgroundColor: isDark ? "#121212" : "#FFFFFF",
+                  fontFamily: "Inter_400Regular",
+                  fontSize: 14,
+                  color: isDark ? "#FFFFFF" : "#000000",
+                }}
+                returnKeyType="done"
               />
             </View>
 
