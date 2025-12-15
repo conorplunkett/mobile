@@ -1,13 +1,8 @@
-import {
-  View,
-  Text,
-  useColorScheme,
-  Animated,
-  Pressable,
-} from "react-native";
+import { View, Text, useColorScheme, Animated, Pressable } from "react-native";
 import { useRef, useState, useEffect } from "react";
 import * as Haptics from "expo-haptics";
 import { useFonts, Inter_600SemiBold } from "@expo-google-fonts/inter";
+import { COLOR_PRIMARY, COLOR_ACCENT } from "../utils/colors";
 
 const EMOJI_RATINGS = [
   { emoji: "🤨", rating: 1, label: "Not for me" },
@@ -106,7 +101,7 @@ export default function RatingSlider({ onRatingChange, initialRating = null }) {
                     fontSize: 14,
                     color:
                       rating === num
-                        ? "#477b78"
+                        ? COLOR_PRIMARY
                         : isDark
                           ? "#6B7280"
                           : "#9CA3AF",
@@ -135,7 +130,11 @@ export default function RatingSlider({ onRatingChange, initialRating = null }) {
                   style={{
                     flex: 1,
                     height: 8,
-                    backgroundColor: isFilled ? "#e5a754" : (isDark ? "#2A2A2A" : "#E5E7EB"),
+                    backgroundColor: isFilled
+                      ? COLOR_ACCENT
+                      : isDark
+                        ? "#2A2A2A"
+                        : "#E5E7EB",
                     borderRightWidth: num < 5 ? 1 : 0,
                     borderRightColor: isDark ? "#1E1E1E" : "#FFFFFF",
                   }}
@@ -190,7 +189,7 @@ export default function RatingSlider({ onRatingChange, initialRating = null }) {
             style={{
               fontFamily: "Inter_600SemiBold",
               fontSize: 18,
-              color: "#477b78",
+              color: COLOR_PRIMARY,
               textAlign: "center",
               width: "100%",
             }}

@@ -22,6 +22,7 @@ import {
 import { Inter_400Regular, Inter_600SemiBold } from "@expo-google-fonts/inter";
 import * as Clipboard from "expo-clipboard";
 import { useRouter } from "expo-router";
+import { COLOR_PRIMARY } from "../../utils/colors";
 
 export default function SettingsScreen() {
   const colorScheme = useColorScheme();
@@ -236,7 +237,7 @@ export default function SettingsScreen() {
           backgroundColor: isDark ? "#121212" : "#FFFFFF",
         }}
       >
-        <ActivityIndicator size="large" color="#477b78" />
+        <ActivityIndicator size="large" color={COLOR_PRIMARY} />
       </View>
     );
   }
@@ -275,7 +276,7 @@ export default function SettingsScreen() {
           style={{
             fontFamily: "DMSerifDisplay_400Regular",
             fontSize: 32,
-            color: "#477b78",
+            color: COLOR_PRIMARY,
           }}
         >
           Settings
@@ -336,7 +337,7 @@ export default function SettingsScreen() {
                 onValueChange={(value) =>
                   handleToggleSetting("notifications_enabled", value)
                 }
-                trackColor={{ false: "#D1D5DB", true: "#477b78" }}
+                trackColor={{ false: "#D1D5DB", true: COLOR_PRIMARY }}
                 thumbColor="#FFFFFF"
               />
             </View>
@@ -365,7 +366,7 @@ export default function SettingsScreen() {
                 onValueChange={(value) =>
                   handleToggleSetting("dark_mode_enabled", value)
                 }
-                trackColor={{ false: "#D1D5DB", true: "#477b78" }}
+                trackColor={{ false: "#D1D5DB", true: COLOR_PRIMARY }}
                 thumbColor="#FFFFFF"
               />
             </View>
@@ -394,7 +395,7 @@ export default function SettingsScreen() {
                 onValueChange={(value) =>
                   handleToggleSetting("haptics_enabled", value)
                 }
-                trackColor={{ false: "#D1D5DB", true: "#477b78" }}
+                trackColor={{ false: "#D1D5DB", true: COLOR_PRIMARY }}
                 thumbColor="#FFFFFF"
               />
             </View>
@@ -421,7 +422,7 @@ export default function SettingsScreen() {
                 onValueChange={(value) =>
                   handleToggleSetting("audio_enabled", value)
                 }
-                trackColor={{ false: "#D1D5DB", true: "#477b78" }}
+                trackColor={{ false: "#D1D5DB", true: COLOR_PRIMARY }}
                 thumbColor="#FFFFFF"
               />
             </View>
@@ -595,7 +596,7 @@ export default function SettingsScreen() {
               <Switch
                 value={prepopulate}
                 onValueChange={handleTogglePrepopulate}
-                trackColor={{ false: "#D1D5DB", true: "#477b78" }}
+                trackColor={{ false: "#D1D5DB", true: COLOR_PRIMARY }}
                 thumbColor="#FFFFFF"
               />
             </View>

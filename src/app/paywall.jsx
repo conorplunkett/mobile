@@ -4,7 +4,8 @@ import {
   Pressable,
   useColorScheme,
   ScrollView,
-  ActivityIndicator,  Alert,
+  ActivityIndicator,
+  Alert,
 } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -17,6 +18,7 @@ import {
   DMSerifDisplay_400Regular,
 } from "@expo-google-fonts/dm-serif-display";
 import { Inter_400Regular, Inter_600SemiBold } from "@expo-google-fonts/inter";
+import { COLOR_PRIMARY, COLOR_ACCENT } from "../utils/colors";
 
 const PLAN_DETAILS = {
   monthly: {
@@ -165,7 +167,7 @@ export default function PaywallScreen() {
           style={{
             fontFamily: "DMSerifDisplay_400Regular",
             fontSize: 36,
-            color: "#477b78",
+            color: COLOR_PRIMARY,
             marginBottom: 12,
             textAlign: "center",
           }}
@@ -214,7 +216,7 @@ export default function PaywallScreen() {
                   marginRight: 12,
                 }}
               >
-                <Text style={{ color: "#477b78", fontSize: 14 }}>✓</Text>
+                <Text style={{ color: COLOR_PRIMARY, fontSize: 14 }}>✓</Text>
               </View>
               <Text
                 style={{
@@ -235,7 +237,7 @@ export default function PaywallScreen() {
           style={({ pressed }) => ({
             backgroundColor:
               selectedPlan === "monthly"
-                ? "#477b78"
+                ? COLOR_PRIMARY
                 : isDark
                   ? "#1E1E1E"
                   : "#F6F7F9",
@@ -243,7 +245,7 @@ export default function PaywallScreen() {
             padding: 20,
             marginBottom: 12,
             borderWidth: selectedPlan === "monthly" ? 2 : 0,
-            borderColor: "#477b78",
+            borderColor: COLOR_PRIMARY,
             transform: pressed ? [{ scale: 0.98 }] : [{ scale: 1 }],
           })}
         >
@@ -291,7 +293,8 @@ export default function PaywallScreen() {
                 height: 24,
                 borderRadius: 12,
                 borderWidth: 2,
-                borderColor: selectedPlan === "monthly" ? "#FFFFFF" : "#477b78",
+                borderColor:
+                  selectedPlan === "monthly" ? "#FFFFFF" : COLOR_PRIMARY,
                 backgroundColor:
                   selectedPlan === "monthly" ? "#FFFFFF" : "transparent",
               }}
@@ -305,7 +308,7 @@ export default function PaywallScreen() {
           style={({ pressed }) => ({
             backgroundColor:
               selectedPlan === "yearly"
-                ? "#477b78"
+                ? COLOR_PRIMARY
                 : isDark
                   ? "#1E1E1E"
                   : "#F6F7F9",
@@ -313,14 +316,14 @@ export default function PaywallScreen() {
             padding: 20,
             marginBottom: 12,
             borderWidth: selectedPlan === "yearly" ? 2 : 0,
-            borderColor: "#477b78",
+            borderColor: COLOR_PRIMARY,
             transform: pressed ? [{ scale: 0.98 }] : [{ scale: 1 }],
           })}
         >
           <View style={{ position: "absolute", top: -8, right: 16 }}>
             <View
               style={{
-                backgroundColor: "#e5a754",
+                backgroundColor: COLOR_ACCENT,
                 paddingHorizontal: 12,
                 paddingVertical: 4,
                 borderRadius: 12,
@@ -382,7 +385,8 @@ export default function PaywallScreen() {
                 height: 24,
                 borderRadius: 12,
                 borderWidth: 2,
-                borderColor: selectedPlan === "yearly" ? "#FFFFFF" : "#477b78",
+                borderColor:
+                  selectedPlan === "yearly" ? "#FFFFFF" : COLOR_PRIMARY,
                 backgroundColor:
                   selectedPlan === "yearly" ? "#FFFFFF" : "transparent",
               }}
@@ -396,7 +400,7 @@ export default function PaywallScreen() {
           style={({ pressed }) => ({
             backgroundColor:
               selectedPlan === "lifetime"
-                ? "#477b78"
+                ? COLOR_PRIMARY
                 : isDark
                   ? "#1E1E1E"
                   : "#F6F7F9",
@@ -404,7 +408,7 @@ export default function PaywallScreen() {
             padding: 20,
             marginBottom: 32,
             borderWidth: selectedPlan === "lifetime" ? 2 : 0,
-            borderColor: "#477b78",
+            borderColor: COLOR_PRIMARY,
             transform: pressed ? [{ scale: 0.98 }] : [{ scale: 1 }],
           })}
         >
@@ -453,7 +457,7 @@ export default function PaywallScreen() {
                 borderRadius: 12,
                 borderWidth: 2,
                 borderColor:
-                  selectedPlan === "lifetime" ? "#FFFFFF" : "#477b78",
+                  selectedPlan === "lifetime" ? "#FFFFFF" : COLOR_PRIMARY,
                 backgroundColor:
                   selectedPlan === "lifetime" ? "#FFFFFF" : "transparent",
               }}
@@ -490,7 +494,7 @@ export default function PaywallScreen() {
           onPress={handleStartTrial}
           disabled={isProcessing}
           style={({ pressed }) => ({
-            backgroundColor: "#477b78",
+            backgroundColor: COLOR_PRIMARY,
             borderRadius: 28,
             paddingVertical: 18,
             alignItems: "center",
@@ -526,7 +530,7 @@ export default function PaywallScreen() {
             style={{
               fontFamily: "Inter_400Regular",
               fontSize: 13,
-              color: "#477b78",
+              color: COLOR_PRIMARY,
             }}
           >
             Restore Purchases

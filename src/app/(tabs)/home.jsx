@@ -505,13 +505,17 @@ export default function HomeScreen() {
         )}
       </ScrollView>
 
-      {/* Progress button at bottom */}
+      {/* Progress button at bottom - fixed position */}
       <View
         style={{
           position: "absolute",
-          bottom: insets.bottom + 20,
-          left: 24,
-          right: 24,
+          bottom: 0,
+          left: 0,
+          right: 0,
+          backgroundColor: isDark ? "#121212" : "#FFFFFF",
+          paddingBottom: insets.bottom + 20,
+          paddingHorizontal: 24,
+          paddingTop: 16,
         }}
       >
         <Pressable
