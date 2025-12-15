@@ -19,6 +19,100 @@ import {
 } from "@expo-google-fonts/dm-serif-display";
 import { Inter_400Regular, Inter_600SemiBold } from "@expo-google-fonts/inter";
 import { COLOR_PRIMARY, COLOR_MUTED } from "../../utils/colors";
+import {
+  RATING_EMOJI_BY_SCORE,
+  RATING_LABEL_BY_SCORE,
+} from "../../constants/ratingScale";
+
+const RATING_HISTORY_ENTRIES = [
+  {
+    id: "christianity-new-testament",
+    date: "May 12",
+    rating: 5,
+    verse:
+      "Let us not love with words or speech but with actions and in truth.",
+    reference: "1 John 3:18",
+    attribution: "Christianity - New Testament",
+  },
+  {
+    id: "judaism-tanakh",
+    date: "May 11",
+    rating: 4,
+    verse:
+      "Trust in the Lord with all your heart and lean not on your own understanding; in all your ways acknowledge Him, and He will make your paths straight.",
+    reference: "Proverbs 3:5-6",
+    attribution: "Judaism - Hebrew Bible / Tanakh",
+  },
+  {
+    id: "islam-quran",
+    date: "May 10",
+    rating: 4,
+    verse:
+      "Indeed, God does not change the condition of a people until they change what is in themselves.",
+    reference: "Qur'an 13:11",
+    attribution: "Islam - Qur'an",
+  },
+  {
+    id: "hinduism-gita",
+    date: "May 9",
+    rating: 5,
+    verse:
+      "You have a right to your actions, but never to your results. Act without attachment to success or failure, and your deeds will bring peace.",
+    reference: "Gita 2:47",
+    attribution: "Hinduism - Bhagavad Gita",
+  },
+  {
+    id: "buddhism-dhammapada",
+    date: "May 8",
+    rating: 3,
+    verse:
+      "All that we are is the result of what we have thought. The mind is everything. What we think, we become.",
+    reference: "Dhammapada 1:1",
+    attribution: "Buddhism - Dhammapada",
+  },
+  {
+    id: "sikhism-guru-granth",
+    date: "May 7",
+    rating: 4,
+    verse: "By conquering your mind, you conquer the world.",
+    reference: null,
+    attribution: "Sikhism - Guru Granth Sahib",
+  },
+  {
+    id: "taoism-tao-te-ching",
+    date: "May 6",
+    rating: 3,
+    verse:
+      "Knowing others is intelligence; knowing yourself is true wisdom. Mastering others is strength; mastering yourself is true power.",
+    reference: "Tao Te Ching 33",
+    attribution: "Taoism - Tao Te Ching",
+  },
+  {
+    id: "confucianism",
+    date: "May 5",
+    rating: 2,
+    verse: "The man who moves a mountain begins by carrying away small stones.",
+    reference: null,
+    attribution: "Confucianism",
+  },
+  {
+    id: "bahai-faith",
+    date: "May 4",
+    rating: 1,
+    verse: "So powerful is the light of unity that it can illuminate the whole earth.",
+    reference: null,
+    attribution: "Baha'i Faith",
+  },
+  {
+    id: "indigenous-lakota",
+    date: "May 3",
+    rating: 3,
+    verse:
+      "The longest journey you will ever take is from your head to your heart.",
+    reference: null,
+    attribution: "Indigenous / Native American (Lakota - attributed)",
+  },
+];
 
 export default function ProgressScreen() {
   const colorScheme = useColorScheme();
@@ -106,6 +200,7 @@ export default function ProgressScreen() {
   const daysRemaining = Math.max(0, 30 - currentDay);
   const totalRatings = progressData?.totalRatings || 0;
   const canGenerateReport = totalRatings >= 20;
+  const hasRatingHistory = totalRatings > 0 && RATING_HISTORY_ENTRIES.length > 0;
 
   return (
     <View
@@ -433,6 +528,123 @@ export default function ProgressScreen() {
             )}
           </Pressable>
         </View>
+
+        {/* History timeline */}
+        {hasRatingHistory && (
+          <View style={{ marginTop: 32 }}>
+            <Text
+              style={{
+                fontFamily: "Inter_600SemiBold",
+                fontSize: 18,
+                color: isDark ? "#FFFFFF" : "#000000",
+                marginBottom: 16,
+              }}
+            >
+              History
+            </Text>
+
+            <View
+              style={{
+                backgroundColor: isDark ? "#1E1E1E" : "#F6F7F9",
+                borderRadius: 20,
+                paddingVertical: 8,
+                paddingHorizontal: 24,
+              }}
+            >
+              {RATING_HISTORY_ENTRIES.map((entry, index) => (
+                <View key={entry.id} style={{ paddingVertical: 16 }}>
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                      marginBottom: 8,
+                    }}
+                  >
+                    <Text
+                      style={{
+                        fontFamily: "Inter_600SemiBold",
+                        fontSize: 14,
+                        color: isDark ? "#E5E7EB" : "#374151",
+                      }}
+                    >
+                      {entry.date}
+                    </Text>
+                    <View
+                      style={{
+                        flexDirection: "row",
+                        alignItems: "center",
+                        justifyContent: "flex-end",
+                        flexShrink: 1,
+                      }}
+                    >
+                      <Text
+                        style={{
+                          fontFamily: "Inter_400Regular",
+                          fontSize: 12,
+                          color: isDark ? "#9CA3AF" : "#6B7280",
+                          marginRight: 6,
+                        }}
+                        numberOfLines={1}
+                      >
+                        {RATING_LABEL_BY_SCORE[entry.rating]}
+                      </Text>
+                      <Text style={{ fontSize: 24 }}>
+                        {RATING_EMOJI_BY_SCORE[entry.rating]}
+                      </Text>
+                    </View>
+                  </View>
+
+                  <Text
+                    style={{
+                      fontFamily: "Inter_400Regular",
+                      fontSize: 16,
+                      color: isDark ? "#FFFFFF" : "#111827",
+                      lineHeight: 24,
+                      marginBottom: entry.reference ? 6 : 10,
+                    }}
+                  >
+                    {entry.verse}
+                  </Text>
+
+                  {entry.reference && (
+                    <Text
+                      style={{
+                        fontFamily: "Inter_400Regular",
+                        fontSize: 14,
+                        color: isDark ? "#9CA3AF" : "#6B7280",
+                        marginBottom: 10,
+                      }}
+                    >
+                      {entry.reference}
+                    </Text>
+                  )}
+
+                  <Text
+                    style={{
+                      fontFamily: "Inter_400Regular",
+                      fontSize: 13,
+                      color: isDark ? "#9CA3AF" : "#6B7280",
+                      textTransform: "none",
+                    }}
+                  >
+                    {entry.attribution}
+                  </Text>
+
+                  {index < RATING_HISTORY_ENTRIES.length - 1 && (
+                    <View
+                      style={{
+                        height: 1,
+                        backgroundColor: isDark ? "#2A2A2A" : "#E5E7EB",
+                        marginTop: 16,
+                      }}
+                    />
+                  )}
+                </View>
+              ))}
+            </View>
+          </View>
+        )}
       </ScrollView>
     </View>
   );

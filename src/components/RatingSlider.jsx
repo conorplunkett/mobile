@@ -3,21 +3,14 @@ import { useRef, useState, useEffect } from "react";
 import * as Haptics from "expo-haptics";
 import { useFonts, Inter_600SemiBold } from "@expo-google-fonts/inter";
 import { COLOR_PRIMARY, COLOR_ACCENT } from "../utils/colors";
-
-const EMOJI_RATINGS = [
-  { emoji: "🤨", rating: 1, label: "Not for me" },
-  { emoji: "😐", rating: 2, label: "Somewhat resonated" },
-  { emoji: "😊", rating: 3, label: "Resonated" },
-  { emoji: "😄", rating: 4, label: "Strongly resonated" },
-  { emoji: "🤩", rating: 5, label: "Deeply resonated" },
-];
+import { RATING_SCALE } from "../constants/ratingScale";
 
 export default function RatingSlider({ onRatingChange, initialRating = null }) {
   const colorScheme = useColorScheme();
   const isDark = colorScheme === "dark";
   const [rating, setRating] = useState(initialRating);
   const scaleAnimations = useRef(
-    EMOJI_RATINGS.map(() => new Animated.Value(1))
+    RATING_SCALE.map(() => new Animated.Value(1))
   ).current;
 
   const [fontsLoaded] = useFonts({
@@ -153,7 +146,7 @@ export default function RatingSlider({ onRatingChange, initialRating = null }) {
             marginBottom: 12,
           }}
         >
-          {EMOJI_RATINGS.map((item, index) => {
+          {RATING_SCALE.map((item, index) => {
             const isSelected = rating === item.rating;
             return (
               <Pressable
@@ -194,7 +187,7 @@ export default function RatingSlider({ onRatingChange, initialRating = null }) {
               width: "100%",
             }}
           >
-            {EMOJI_RATINGS.find((item) => item.rating === rating)?.label}
+            {RATING_SCALE.find((item) => item.rating === rating)?.label}
           </Text>
         )}
       </View>
