@@ -22,6 +22,7 @@ import {
 } from "@expo-google-fonts/dm-serif-display";
 import { Inter_400Regular, Inter_600SemiBold } from "@expo-google-fonts/inter";
 import RatingSlider from "../../components/RatingSlider";
+import { COLOR_PRIMARY } from "../../utils/colors";
 
 export default function HomeScreen() {
   const colorScheme = useColorScheme();
@@ -175,7 +176,7 @@ export default function HomeScreen() {
           backgroundColor: isDark ? "#121212" : "#FFFFFF",
         }}
       >
-        <ActivityIndicator size="large" color="#477b78" />
+        <ActivityIndicator size="large" color={COLOR_PRIMARY} />
       </View>
     );
   }
@@ -219,7 +220,7 @@ export default function HomeScreen() {
             style={{
               fontFamily: "DMSerifDisplay_400Regular",
               fontSize: 32,
-              color: "#477b78",
+            color: COLOR_PRIMARY,
             }}
           >
             Rio
@@ -250,7 +251,7 @@ export default function HomeScreen() {
         style={{ flex: 1 }}
         contentContainerStyle={{
           paddingHorizontal: 24,
-          paddingBottom: 140,
+          paddingBottom: insets.bottom + 40,
         }}
         showsVerticalScrollIndicator={false}
       >
@@ -325,7 +326,7 @@ export default function HomeScreen() {
                       height: 32,
                       borderRadius: 16,
                       backgroundColor: isCompleted
-                        ? "#477b78"
+                        ? COLOR_PRIMARY
                         : isDark
                           ? "#2A2A2A"
                           : "#E5E7EB",
@@ -411,7 +412,7 @@ export default function HomeScreen() {
                 onPress={handleViewGoDeeper}
                 style={({ pressed }) => ({
                   marginTop: 16,
-                  backgroundColor: "#477b78",
+                  backgroundColor: COLOR_PRIMARY,
                   borderRadius: 12,
                   paddingVertical: 14,
                   alignItems: "center",
@@ -452,7 +453,7 @@ export default function HomeScreen() {
             <Pressable
               onPress={handleSubmitRating}
               style={({ pressed }) => ({
-                backgroundColor: "#477b78",
+                backgroundColor: COLOR_PRIMARY,
                 borderRadius: 28,
                 paddingVertical: 18,
                 alignItems: "center",
@@ -470,6 +471,31 @@ export default function HomeScreen() {
                 Submit Rating
               </Text>
             </Pressable>
+
+            <Pressable
+              onPress={() => router.push("/(tabs)/progress")}
+              style={({ pressed }) => ({
+                backgroundColor: isDark ? "#1E1E1E" : "#F6F7F9",
+                borderRadius: 16,
+                paddingVertical: 16,
+                paddingHorizontal: 24,
+                alignItems: "center",
+                marginTop: 16,
+                borderWidth: 1,
+                borderColor: COLOR_PRIMARY,
+                transform: pressed ? [{ scale: 0.98 }] : [{ scale: 1 }],
+              })}
+            >
+              <Text
+                style={{
+                  fontFamily: "Inter_600SemiBold",
+                  fontSize: 15,
+                  color: COLOR_PRIMARY,
+                }}
+              >
+                View Progress
+              </Text>
+            </Pressable>
           </View>
         ) : (
           <View>
@@ -485,7 +511,7 @@ export default function HomeScreen() {
                 style={{
                   fontFamily: "Inter_600SemiBold",
                   fontSize: 16,
-                  color: "#477b78",
+                  color: COLOR_PRIMARY,
                   marginBottom: 8,
                 }}
               >
@@ -501,49 +527,34 @@ export default function HomeScreen() {
                 Come back tomorrow for your next verse
               </Text>
             </View>
+
+            <Pressable
+              onPress={() => router.push("/(tabs)/progress")}
+              style={({ pressed }) => ({
+                backgroundColor: isDark ? "#1E1E1E" : "#F6F7F9",
+                borderRadius: 16,
+                paddingVertical: 16,
+                paddingHorizontal: 24,
+                alignItems: "center",
+                marginTop: 24,
+                borderWidth: 1,
+                borderColor: COLOR_PRIMARY,
+                transform: pressed ? [{ scale: 0.98 }] : [{ scale: 1 }],
+              })}
+            >
+              <Text
+                style={{
+                  fontFamily: "Inter_600SemiBold",
+                  fontSize: 15,
+                  color: COLOR_PRIMARY,
+                }}
+              >
+                View Progress
+              </Text>
+            </Pressable>
           </View>
         )}
       </ScrollView>
-
-      {/* Progress button at bottom - fixed position */}
-      <View
-        style={{
-          position: "absolute",
-          bottom: 0,
-          left: 0,
-          right: 0,
-          backgroundColor: isDark ? "#121212" : "#FFFFFF",
-          paddingBottom: insets.bottom + 20,
-          paddingHorizontal: 24,
-          paddingTop: 16,
-        }}
-      >
-        <Pressable
-          onPress={() => router.push("/(tabs)/progress")}
-          style={({ pressed }) => ({
-            backgroundColor: isDark ? "#1E1E1E" : "#F6F7F9",
-            borderRadius: 16,
-            paddingVertical: 16,
-            paddingHorizontal: 24,
-            flexDirection: "row",
-            justifyContent: "center",
-            alignItems: "center",
-            borderWidth: 1,
-            borderColor: "#477b78",
-            transform: pressed ? [{ scale: 0.98 }] : [{ scale: 1 }],
-          })}
-        >
-          <Text
-            style={{
-              fontFamily: "Inter_600SemiBold",
-              fontSize: 15,
-              color: "#477b78",
-            }}
-          >
-            View Progress
-          </Text>
-        </Pressable>
-      </View>
 
       {/* Go Deeper Modal */}
       <Modal
@@ -580,7 +591,7 @@ export default function HomeScreen() {
                 style={{
                   fontFamily: "DMSerifDisplay_400Regular",
                   fontSize: 28,
-                  color: "#477b78",
+                  color: COLOR_PRIMARY,
                 }}
               >
                 Go Deeper
@@ -595,7 +606,7 @@ export default function HomeScreen() {
                   style={{
                     fontFamily: "Inter_600SemiBold",
                     fontSize: 16,
-                    color: "#477b78",
+                    color: COLOR_PRIMARY,
                   }}
                 >
                   Done
@@ -617,7 +628,7 @@ export default function HomeScreen() {
                     style={{
                       fontFamily: "Inter_600SemiBold",
                       fontSize: 16,
-                      color: "#477b78",
+                        color: COLOR_PRIMARY,
                       marginBottom: 12,
                     }}
                   >
@@ -770,7 +781,7 @@ export default function HomeScreen() {
               onPress={handleSaveReflection}
               disabled={!reflection.trim()}
               style={({ pressed }) => ({
-                backgroundColor: reflection.trim() ? "#477b78" : "#D1D5DB",
+                backgroundColor: reflection.trim() ? COLOR_PRIMARY : "#D1D5DB",
                 borderRadius: 28,
                 paddingVertical: 18,
                 alignItems: "center",
