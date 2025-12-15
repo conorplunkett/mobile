@@ -188,6 +188,62 @@ export default function HomeScreen() {
   // Calculate streak (consecutive days)
   const streak = currentDay; // Simplified - in production would check for gaps
 
+  const renderJourneyActions = (topSpacing = 16) => (
+    <View style={{ marginTop: topSpacing }}>
+      {[
+        {
+          label: "View Progress",
+          onPress: () => router.push("/(tabs)/progress"),
+          subtext: null,
+        },
+        {
+          label: "View Final Report",
+          onPress: () => router.push("/final-report"),
+          subtext: null,
+        },
+      ].map((action) => (
+        <Pressable
+          key={action.label}
+          onPress={action.onPress}
+          style={({ pressed }) => ({
+            backgroundColor: isDark ? "#121212" : "#FFFFFF",
+            borderRadius: 16,
+            paddingVertical: 16,
+            paddingHorizontal: 24,
+            alignItems: "center",
+            borderWidth: 1,
+            borderColor: isDark ? "#2F2F2F" : "#E5E7EB",
+            marginBottom: action.subtext ? 0 : 12,
+            transform: pressed ? [{ scale: 0.98 }] : [{ scale: 1 }],
+          })}
+        >
+          <Text
+            style={{
+              fontFamily: "Inter_600SemiBold",
+              fontSize: 15,
+              color: isDark ? "#FFFFFF" : "#111827",
+              marginBottom: action.subtext ? 4 : 0,
+            }}
+          >
+            {action.label}
+          </Text>
+          {action.subtext ? (
+            <Text
+              style={{
+                fontFamily: "Inter_400Regular",
+                fontSize: 13,
+                color: isDark ? "#9CA3AF" : "#6B7280",
+                textAlign: "center",
+              }}
+            >
+              {action.subtext}
+            </Text>
+          ) : null}
+        </Pressable>
+      ))}
+    </View>
+  );
+
   return (
     <View
       style={{
@@ -466,30 +522,7 @@ export default function HomeScreen() {
               </Text>
             </Pressable>
 
-            <Pressable
-              onPress={() => router.push("/(tabs)/progress")}
-              style={({ pressed }) => ({
-                backgroundColor: isDark ? "#1E1E1E" : "#F6F7F9",
-                borderRadius: 16,
-                paddingVertical: 16,
-                paddingHorizontal: 24,
-                alignItems: "center",
-                marginTop: 16,
-                borderWidth: 1,
-                borderColor: COLOR_PRIMARY,
-                transform: pressed ? [{ scale: 0.98 }] : [{ scale: 1 }],
-              })}
-            >
-              <Text
-                style={{
-                  fontFamily: "Inter_600SemiBold",
-                  fontSize: 15,
-                  color: COLOR_PRIMARY,
-                }}
-              >
-                View Progress
-              </Text>
-            </Pressable>
+            {renderJourneyActions()}
           </View>
         ) : (
           <View>
@@ -522,30 +555,7 @@ export default function HomeScreen() {
               </Text>
             </View>
 
-            <Pressable
-              onPress={() => router.push("/(tabs)/progress")}
-              style={({ pressed }) => ({
-                backgroundColor: isDark ? "#1E1E1E" : "#F6F7F9",
-                borderRadius: 16,
-                paddingVertical: 16,
-                paddingHorizontal: 24,
-                alignItems: "center",
-                marginTop: 24,
-                borderWidth: 1,
-                borderColor: COLOR_PRIMARY,
-                transform: pressed ? [{ scale: 0.98 }] : [{ scale: 1 }],
-              })}
-            >
-              <Text
-                style={{
-                  fontFamily: "Inter_600SemiBold",
-                  fontSize: 15,
-                  color: COLOR_PRIMARY,
-                }}
-              >
-                View Progress
-              </Text>
-            </Pressable>
+            {renderJourneyActions(24)}
           </View>
         )}
       </ScrollView>
